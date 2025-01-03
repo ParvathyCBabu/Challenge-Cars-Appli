@@ -63,7 +63,7 @@ public class CarServiceTest {
         when(carRepository.findById(10L)).thenReturn(Optional.of(carList.get(0)));
         when(carRepository.save(car)).thenReturn(car);
         assertThrows(ResourceNotFoundException.class, () -> {
-            carService.update(carDto);
+            carService.update(1l, carDto);
         });
     }
 
@@ -76,7 +76,7 @@ public class CarServiceTest {
         carList.add(car);
         when(carRepository.findById(100L)).thenReturn(Optional.of(carList.get(0)));
         when(carRepository.save(car)).thenReturn(car);
-        CarDto userDtoList= carService.update(carDto);
+        CarDto userDtoList= carService.update(100L, carDto);
         assertEquals(car.getId(), carDto.getId());
         assertEquals(car.getMake(), carDto.getMake());
         assertEquals(car.getModel(), carDto.getModel());
@@ -94,7 +94,7 @@ public class CarServiceTest {
         when(carRepository.findById(10L)).thenReturn(Optional.of(carList.get(0)));
         when(carRepository.save(car)).thenReturn(car);
         assertThrows(ResourceNotFoundException.class, () -> {
-            carService.delete(carDto);
+            carService.delete(1L, carDto);
         });
     }
 
@@ -107,7 +107,7 @@ public class CarServiceTest {
         carList.add(car);
         when(carRepository.findById(100L)).thenReturn(Optional.of(carList.get(0)));
         when(carRepository.save(car)).thenReturn(car);
-        carService.delete(carDto);
+        carService.delete(100L, carDto);
         assertEquals(car.getId(), carDto.getId());
         assertEquals(car.getMake(), carDto.getMake());
         assertEquals(car.getModel(), carDto.getModel());

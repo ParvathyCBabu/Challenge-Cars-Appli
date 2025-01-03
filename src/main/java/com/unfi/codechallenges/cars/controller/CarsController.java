@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -50,21 +51,20 @@ public class CarsController {
      * Method to update a data to Database.
      * @return The updated Car.
      */
-    @PutMapping()
-    public ResponseEntity<CarDto> updateCar(@RequestBody CarDto car)  throws ResourceNotFoundException {
-        log.info("Updating existing car");
-        return ResponseEntity.ok(carService.update(car));
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<CarDto> updateCar(@PathVariable Long id, @RequestBody CarDto car)  throws ResourceNotFoundException {
+        log.info("Updating existing car" + " " + id);
+        return ResponseEntity.ok(carService.update(id, car));
     }
 
     /**
      * Method to delete a data from Database.
-     * @return OK.
      */
-    @DeleteMapping()
-    public ResponseEntity<CarDto> deleteCar(@RequestBody CarDto car) throws ResourceNotFoundException {
-        log.info("Deleting existing car");
-        carService.delete(car);
-        return ResponseEntity.ok(null);
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> deleteCar(@PathVariable Long id, @RequestBody CarDto car) throws ResourceNotFoundException {
+        log.info("Deleting existing car" + " " + id);
+        carService.delete(id,car);
+        return ResponseEntity.noContent().build();
     }
 
 }

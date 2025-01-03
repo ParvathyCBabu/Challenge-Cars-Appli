@@ -6,6 +6,7 @@ import com.unfi.codechallenges.cars.exception.ResourceNotFoundException;
 import com.unfi.codechallenges.cars.repository.CarRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,9 +49,9 @@ public class CarService {
      * Method to update existing data entry to Database.
      * @return The updated Car.
      */
-    public CarDto update(CarDto car) throws ResourceNotFoundException {
+    public CarDto update(Long id, CarDto car) throws ResourceNotFoundException {
         log.info("Updating car");
-        Optional<Car> optionalCar = carRepository.findById(car.getId());
+        Optional<Car> optionalCar = carRepository.findById(id);
         if (optionalCar.isPresent()) {
             Car foundCar = optionalCar.get();
             foundCar.setMake(car.getMake());
@@ -59,7 +60,7 @@ public class CarService {
             foundCar.setVin(car.getVin());
             foundCar.setIsActive(true);
             Car updatedCar = carRepository.save(foundCar);
-            log.info("Updated car");
+            log.info("Updated car with id: {}", updatedCar.getId());
             return CarDto.builder()
                     .id(updatedCar.getId())
                     .make(updatedCar.getMake())
@@ -75,9 +76,9 @@ public class CarService {
     /**
      * Method to delete existing data entry from Database.
      */
-    public void delete(CarDto car) throws ResourceNotFoundException {
+    public void delete(Long id, CarDto car) throws ResourceNotFoundException {
         log.info("Deleting car");
-        Optional<Car> optionalCar = carRepository.findById(car.getId());
+        Optional<Car> optionalCar = carRepository.findById(id);
         if (optionalCar.isPresent()) {
             Car foundCar = optionalCar.get();
             log.info("Soft deleting car with id: {}", foundCar.getId());
