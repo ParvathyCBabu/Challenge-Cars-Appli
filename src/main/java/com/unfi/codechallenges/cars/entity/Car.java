@@ -1,17 +1,25 @@
 package com.unfi.codechallenges.cars.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Column;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Data
+@NoArgsConstructor
 @Entity(name = "CAR")
 public class Car {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CAR_SEQ")
-    @SequenceGenerator(sequenceName = "CAR_SEQ", allocationSize = 1, name = "CAR_SEQ")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private Long id;
 
@@ -36,13 +44,17 @@ public class Car {
     @Column(name = "LAST_UPDATED")
     private LocalDateTime lastUpdated;
 
-    // Constructors
-    public Car() {}
-
     public Car(String make, String model, String year) {
         this.make = make;
         this.model = model;
         this.year = year;
+    }
+
+    public Car(String make, String model, String year, String vin) {
+        this.make = make;
+        this.model = model;
+        this.year = year;
+        this.vin = vin;
     }
 
     @PrePersist
